@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+
+    
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>coding-in-windows</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="coding-in-windows" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="coding-in-windows" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="coding-in-windows" />
+<script type="application/ld+json">
+{"@type":"WebSite","headline":"coding-in-windows","url":"http://localhost:4000/","name":"coding-in-windows","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/assets/css/style.css?v=ce8270399fc1010acf38c924b65adadb4ace7301">
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Coding in Windows 10</h1>
+      <h2 class="project-tagline"></h2>
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <p class="project-tagline">By <a href="https://github.com/KaoShengChieh">KaoShengChieh</a>
+· Updated on Feb 24, 2021</p>
+      <p>In this tutorial, you’ll learn how to build a fancy coding environment with Microsoft’s cutting-edge products - WLS 2 (June 2019), Windows Terminal (May 2020) and VS Code (April 2016). Lastly, you will learn how to set up Docker Desktop.</p>
+
+<h2 id="windows-subsystem-for-linux">Windows Subsystem for Linux</h2>
+
+<p>The Windows Subsystem for Linux (WSL) lets developers run a GNU/Linux environment – including most command-line tools, utilities, and applications – directly on Windows, unmodified, without the overhead of a traditional virtual machine or dual-boot setup.</p>
+
+<p>WSL 2 is a new version of the WSL which introduces a significant architectural change as it is a <strong>full Linux kernel</strong>, <em>allowing Linux containers to run natively without emulation</em>. With Docker Desktop running on WSL 2, users can leverage Linux workspaces and avoid having to maintain both Linux and Windows build scripts.</p>
+
+<h3 id="1-prepare-the-windows-subsystem-for-linux-2">1. Prepare the Windows Subsystem for Linux 2</h3>
+
+<ul>
+  <li>
+    <h4 id="check-your-version-and-build-number">Check your version and build number.</h4>
+
+    <p>Press <code class="language-plaintext highlighter-rouge">Windows logo key</code>+<code class="language-plaintext highlighter-rouge">r</code> and enter <strong>winver</strong>.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center"> </th>
+          <th style="text-align: center">x64</th>
+          <th style="text-align: center">ARM64</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center">Version</td>
+          <td style="text-align: center">1903+</td>
+          <td style="text-align: center">2004+</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">Build</td>
+          <td style="text-align: center">18362+</td>
+          <td style="text-align: center">19041+</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <blockquote>
+      <p><strong>Note</strong>: If you’re not sure what kind of machine you have, check “System Type” under <a href="ms-settings:about">System Information</a> of your machine.</p>
+    </blockquote>
+
+    <p>Lower versions and builds do not support WSL 2. <a href="ms-settings:windowsupdate">Update your version</a> if requirements not met.</p>
+  </li>
+  <li>
+    <h4 id="enable-wsl-and-virtual-machine-platform-features">Enable WSL and Virtual Machine Platform features</h4>
+
+    <p>Open PowerShell as Administrator and run:</p>
+    <pre><code class="language-PowerShell">&gt; dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+&gt; dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+</code></pre>
+
+    <p><strong>Restart</strong> your machine.</p>
+  </li>
+  <li>
+    <h4 id="install-linux-kernel-package">Install Linux kernel package.</h4>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">x64</th>
+          <th style="text-align: center">ARM64</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"><a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi">x64 package</a></td>
+          <td style="text-align: center"><a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_arm64.msi">ARM64 package</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Download and install the Linux kernel update package.</p>
+  </li>
+  <li>
+    <h4 id="set-wsl-2-as-your-default-version">Set WSL 2 as your default version</h4>
+
+    <p>Open PowerShell and run:</p>
+    <pre><code class="language-PowerShell">&gt; wsl --set-default-version 2
+</code></pre>
+  </li>
+</ul>
+
+<h3 id="2-install-your-linux-distribution">2. Install your Linux Distribution</h3>
+
+<p>Open the <a href="ms-windows-store://search/?query=WSL">Microsoft Store</a> and select your preferred Linux distribution. Note that you should choose one of those <a href="https://docs.docker.com/engine/install/#server">supported by Docker</a>.</p>
+
+<p><img src="https://i.imgur.com/t2Svwe5.png" alt="View of Linux distributions in the Microsoft Store" /></p>
+
+<p>The first time you launch a newly installed Linux distribution, a console window will open and you’ll be asked to wait for a minute for files to de-compress and be stored on your PC.</p>
+
+<p>You will then need to <a href="https://docs.microsoft.com/en-us/windows/wsl/user-support">create a user account and password for your new Linux distribution</a>.</p>
+
+<h3 id="3-change-default-settings">3. Change Default Settings</h3>
+
+<p>Ensure the distribution runs in WSL 2 mode. Open PowerShell and run:</p>
+<pre><code class="language-PowerShell">&gt; wsl.exe -l -v
+</code></pre>
+
+<p>To upgrade your existing Linux distro to v2, run:</p>
+<pre><code class="language-PowerShell">&gt; wsl.exe --set-version &lt;distro name&gt; 2
+</code></pre>
+
+<p>Set your Linux distro as default WSL:</p>
+<pre><code class="language-PowerShell">&gt; wsl --set-default &lt;distro name&gt;
+</code></pre>
+
+<h2 id="windows-terminal">Windows Terminal</h2>
+
+<p>The Windows Terminal is a modern, fast, efficient, powerful, and productive terminal application for users of command-line tools and shells like Command Prompt, PowerShell, and WSL. Its main features include multiple tabs, panes, Unicode and UTF-8 character support, a GPU accelerated text rendering engine, and custom themes, styles, and configurations.</p>
+
+<h3 id="1-install-windows-terminal">1. Install Windows Terminal</h3>
+
+<p>Open the <a href="ms-windows-store://search/?query=windows%20terminal">Microsoft Store</a> and install Windows Terminal.</p>
+
+<p><img src="https://www.howtogeek.com/wp-content/uploads/2020/05/windows-terminal.jpg" alt="Windows Terminal" /><br />
+Windows Terminal’s <a href="https://www.youtube.com/watch?v=8gw0rXPMMPE">AD on YouTube</a> (44 sec)</p>
+
+<p>I strongly recommend you pin Windows Terminal on your taskbar or create a desktop shortcut.</p>
+
+<p><img src="https://i.imgur.com/3zn4zfp.png" width="600" /></p>
+
+<h3 id="2-set-wsl-as-default-tab">2. Set WSL as Default Tab</h3>
+
+<p>Launch Windows Terminal and open settings. You can edit settings with Notepad or other editors.</p>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="c1">//...,</span><span class="w">
+  </span><span class="nl">"defaultProfile"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">guid_of_your_powershell</span><span class="p">],</span><span class="w">
+  </span><span class="c1">//...,</span><span class="w">
+  </span><span class="nl">"profiles"</span><span class="p">:</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="c1">//...,</span><span class="w">
+    </span><span class="nl">"list"</span><span class="p">:</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="c1">//...,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">guid_of_your_wsl</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">name_of_your_wsl</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">source_of_your_wsl</span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="c1">//...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="c1">//...</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Change value of <code class="language-plaintext highlighter-rouge">defaultProfile</code> and add attribute <code class="language-plaintext highlighter-rouge">commandline</code>.</p>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="c1">//...,</span><span class="w">
+  </span><span class="nl">"defaultProfile"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">guid_of_your_wsl</span><span class="p">],</span><span class="w">
+  </span><span class="c1">//...,</span><span class="w">
+  </span><span class="nl">"profiles"</span><span class="p">:</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="c1">//...,</span><span class="w">
+    </span><span class="nl">"list"</span><span class="p">:</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="c1">//...,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">guid_of_your_wsl</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"hidden"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">name_of_your_wsl</span><span class="p">],</span><span class="w">
+        </span><span class="nl">"commandline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wsl.exe ~"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="err">source_of_your_wsl</span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="c1">//...</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="c1">//...</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="3-try-splitting-panes-for-multiple-shells">3. Try Splitting Panes for Multiple Shells</h3>
+
+<p><img src="https://docs.microsoft.com/en-us/windows/wsl/media/terminal.png" alt="Windows Terminal" /></p>
+
+<p>Here are some other keyboard shortcuts for working with panes:</p>
+<ul>
+  <li><strong>Create a new pane, splitting horizontally</strong>: <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">-</code></li>
+  <li><strong>Create a new pane, splitting vertically</strong>: <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">+</code></li>
+  <li><strong>Move pane focus</strong>: <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Left</code>, <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Right</code>, <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Down</code>, <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Up</code></li>
+  <li><strong>Resize the focused pane</strong>: <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">Left</code>, <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">Right</code>, <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">Down</code>, <code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">Up</code></li>
+  <li><strong>Close a pane</strong>: <code class="language-plaintext highlighter-rouge">Ctrl</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">w</code></li>
+</ul>
+
+<p>These are the default hotkeys, and you can change them if you like.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: When new tab or new pane created, it should be WSL instead of PowerShell if you do <a href="./#2-set-wsl-as-default-tab">last step</a> correctly.</p>
+</blockquote>
+
+<h2 id="visual-studio-code">Visual Studio Code</h2>
+<p>Visual Studio Code (VS Code) is a <strong>lightweight</strong> but <strong>powerful</strong> source code editor made by Microsoft. It comes with built-in support for JavaScript, TypeScript and Node.js and has a rich ecosystem of extensions for other languages (such as C++, C#, Java, Python, PHP, Go) and runtimes (such as .NET and Unity).</p>
+
+<p><img src="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" alt="Visual Studio Code" /></p>
+
+<h3 id="1-install-vs-code">1. Install VS Code</h3>
+
+<p>Download and install <a href="https://code.visualstudio.com/">VS Code</a>. <strong>Restart</strong> machine.</p>
+
+<p>The first time you launch VS Code, it may suggest you install some extensions. Install all of them.</p>
+
+<p>You can <a href="https://code.visualstudio.com/docs/getstarted/userinterface">customize user interface</a> or do it later.</p>
+
+<p>VS Code also has some powerful functionality such as:</p>
+<ul>
+  <li><a href="https://code.visualstudio.com/docs/editor/versioncontrol">Source control management</a> including Git support - you can review diffs, stage files, and make commits right from the editor.</li>
+  <li><a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker extension</a> to make it easy to build, manage, and deploy containerized applications.</li>
+</ul>
+
+<p>I merely leave the information here and won’t spend words on elaborating them. You can try them when you become experienced users.</p>
+
+<h3 id="2-install-wsl-extension">2. Install WSL Extension</h3>
+
+<p>WSL extension runs commands and other extensions directly in WSL so you can edit files located in WSL or the mounted Windows filesystem (for example <code class="language-plaintext highlighter-rouge">/mnt/c</code>) without worrying about pathing issues, binary compatibility, or other cross-OS challenges.</p>
+
+<p><img src="https://code.visualstudio.com/assets/docs/remote/wsl/architecture-wsl.png" alt="vscode-wsl architecture" /></p>
+
+<p>This lets VS Code provide a <strong>local-quality development experience</strong> — including full IntelliSense (completions), code navigation, and debugging — regardless of where your code is hosted.</p>
+
+<p>To launch VS Code, simply open <strong>Windows Terminal</strong> and type:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>code <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>When doing this for the first time, you should see VS Code fetching components needed to run in WSL.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: If the command does not work, you might have failed to set WSL as Windows Terminal’s default tab or not restarted your machine yet.</p>
+</blockquote>
+
+<p>After a moment, a new VS Code window will appear, and you’ll see a notification that VS Code is opening the folder in WSL.</p>
+
+<p><img src="https://code.visualstudio.com/assets/docs/remote/wsl/wsl-starting-notification.png" alt="wsl-starting-notification" /></p>
+
+<p>VS Code will now continue to configure itself in WSL and keep you up to date as it makes progress.</p>
+
+<p>Once finished, you now see a WSL indicator in the bottom left corner.</p>
+
+<p><img src="https://code.visualstudio.com/assets/docs/remote/wsl/wsl-statusbar-indicator.png" alt="wsl-statusbar-indicator" /></p>
+
+<p><strong>CONGRATULATIONS! You’ve successfully set up a perfect coding environment which integrates WSL, Windows Terminal and VS Code with your Windows 10!</strong></p>
+
+<p>So far, we have built a <strong>seamless</strong> mixed Windows and Linux OS. It is useful for your projects and your future software engineer life. Wait, what did I mean “seamless”?</p>
+
+<p>You can run Linux command in Windows file system:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Under Windows file system, use Linux <span class="nb">command</span> <span class="s2">"find"</span> to
+// list all files with <span class="s2">".c"</span> extension under current directory.
+<span class="nv">$ </span>find <span class="nb">.</span> <span class="nt">-name</span> <span class="s2">"*.c"</span> <span class="nt">-type</span> f
+</code></pre></div></div>
+
+<p>You can run Windows application in WSL file system:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Under WSL file system, use Windows application <span class="s2">"File Explorer"</span>
+// to view current directory with graphical user interface.
+<span class="nv">$ </span>explorer.exe <span class="nb">.</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>Last but not least, only one easiest step remains.</p>
+
+<h2 id="docker-desktop">Docker Desktop</h2>
+
+<p>Docker Desktop uses the dynamic memory allocation feature in WSL 2 to greatly improve the resource consumption. This means, Docker Desktop only uses the required amount of CPU and memory resources it needs, while enabling CPU and memory-intensive tasks such as building a container to run much faster. In addition, WSL 2 provides improvements to file system sharing, boot time, and allows access to some cool new features for Docker Desktop users.</p>
+
+<h3 id="install-docker-desktop">Install Docker Desktop</h3>
+<p>Download and install <a href="https://hub.docker.com/editions/community/docker-ce-desktop-windows/">Docker Desktop</a>.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: Ensure you have completed the steps described in previous sections before installing Docker Desktop.</p>
+</blockquote>
+
+<p>Follow the usual installation instructions.</p>
+
+<h3 id="enable-wsl-for-docker">Enable WSL for Docker</h3>
+
+<p>Launch Docker Desktop. From the Docker menu, select <strong>Settings</strong> &gt; <strong>General</strong>. If you have completed the steps described in previous sections, the option <strong>Use WSL 2 based engine</strong> should be enabled by default.</p>
+
+<p><img src="https://docs.docker.com/docker-for-windows/images/wsl2-enable.png" alt="Docker menu-Enable WSL 2" /></p>
+
+<p>Select <strong>Resources</strong> &gt; <strong>WSL Integration</strong>. WSL Integration will be enabled on your default Linux distribution of WSL. If not, enable your distributions and click <strong>Apply &amp; Restart</strong>.</p>
+
+<p>That’s it! Once you restart the machine, you can run this command to tell everything is well done:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run hello-world
+</code></pre></div></div>
+
+<p>Of course, you should run this Docker command in Windows Terminal with WLS 2.</p>
+
+<h2 id="documentation">Documentation</h2>
+<ul>
+  <li>Windows Subsystem for Linux<br />
+<a href="https://docs.microsoft.com/en-us/windows/wsl/">https://docs.microsoft.com/en-us/windows/wsl/</a></li>
+  <li>Windows Terminal<br />
+<a href="https://docs.microsoft.com/en-us/windows/terminal/">https://docs.microsoft.com/en-us/windows/terminal/</a></li>
+  <li>Visual Studio Code<br />
+<a href="https://code.visualstudio.com/docs">https://code.visualstudio.com/docs</a></li>
+  <li>Docker Desktop for Windows<br />
+<a href="https://docs.docker.com/docker-for-windows/">https://docs.docker.com/docker-for-windows/</a></li>
+</ul>
+
+
+      <footer class="site-footer">
+        
+          <span class="site-footer-owner">This page is maintained by <a href="https://github.com/KaoShengChieh">KaoShengChieh</a>.</span>
+        
+        <!--span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span-->
+      </footer>
+    </main>
+  </body>
+</html>
+
