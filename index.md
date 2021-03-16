@@ -56,22 +56,24 @@ The first time you launch a newly installed Linux distribution, a console window
 
 You will then need to [create a user account and password for your new Linux distribution](https://docs.microsoft.com/en-us/windows/wsl/user-support).
 
-### 3. Change Default Settings
+### 3. Check Default Settings
 
 Ensure the distribution runs in WSL 2 mode. Open PowerShell and run:
 ```PowerShell
 > wsl.exe -l -v
 ```
 
-To upgrade your existing Linux distro to v2, run:
-```PowerShell
-> wsl.exe --set-version <distro name> 2
-```
+* If your Linux distro is version 1, upgrade it to version 2 by running:
+  
+  ```PowerShell
+  > wsl.exe --set-version <distro name> 2
+  ```
 
-Set your Linux distro as default WSL:
-```PowerShell
-> wsl --set-default <distro name>
-```
+* If your Linux distro is not default WSL (doesn't have a star sign `*` on the left of `<distro name>`), set it as default one by running:
+  
+  ```PowerShell
+  > wsl --set-default <distro name>
+  ```
 
 ## Windows Terminal
 

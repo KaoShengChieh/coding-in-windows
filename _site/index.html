@@ -22,7 +22,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="/assets/css/style.css?v=ce8270399fc1010acf38c924b65adadb4ace7301">
+    <link rel="stylesheet" href="/assets/css/style.css?v=2a5e6659d124f0a318226677eb765e0a9a4a843f">
   </head>
   <body>
     <a id="skip-to-content" href="#content">Skip to the content.</a>
@@ -128,19 +128,26 @@
 
 <p>You will then need to <a href="https://docs.microsoft.com/en-us/windows/wsl/user-support">create a user account and password for your new Linux distribution</a>.</p>
 
-<h3 id="3-change-default-settings">3. Change Default Settings</h3>
+<h3 id="3-check-default-settings">3. Check Default Settings</h3>
 
 <p>Ensure the distribution runs in WSL 2 mode. Open PowerShell and run:</p>
 <pre><code class="language-PowerShell">&gt; wsl.exe -l -v
 </code></pre>
 
-<p>To upgrade your existing Linux distro to v2, run:</p>
-<pre><code class="language-PowerShell">&gt; wsl.exe --set-version &lt;distro name&gt; 2
-</code></pre>
+<ul>
+  <li>
+    <p>If your Linux distro is version 1, upgrade it to version 2 by running:</p>
 
-<p>Set your Linux distro as default WSL:</p>
-<pre><code class="language-PowerShell">&gt; wsl --set-default &lt;distro name&gt;
+    <pre><code class="language-PowerShell">&gt; wsl.exe --set-version &lt;distro name&gt; 2
 </code></pre>
+  </li>
+  <li>
+    <p>If your Linux distro is not default WSL (doesn’t have a star sign <code class="language-plaintext highlighter-rouge">*</code> on the left of <code class="language-plaintext highlighter-rouge">&lt;distro name&gt;</code>), set it as default one by running:</p>
+
+    <pre><code class="language-PowerShell">&gt; wsl --set-default &lt;distro name&gt;
+</code></pre>
+  </li>
+</ul>
 
 <h2 id="windows-terminal">Windows Terminal</h2>
 
